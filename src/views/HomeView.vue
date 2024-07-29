@@ -50,7 +50,7 @@ const { isPending, isError, data, error } = useQuery({
             :key="todo.id"
             class="bg-white p-4 shadow rounded cursor-pointer hover:bg-gray-100"
           >
-            <RouterLink :to="{ name: 'todo-details', params: { id: '123' } }">
+            <RouterLink :to="{ name: 'todo-details', params: { id: todo.id } }">
               <div class="flex justify-between items-center">
                 <div>
                   <h2 class="text-xl font-semibold">{{ todo.title }}</h2>

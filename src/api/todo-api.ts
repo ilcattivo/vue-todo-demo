@@ -1,7 +1,7 @@
 const baseURL = 'http://localhost:3000'
 
 export interface Todo {
-  id: number
+  id: string
   title: string
   description: string
   completed: boolean

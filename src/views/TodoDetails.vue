@@ -2,10 +2,13 @@
 import { getTodoById } from '@/api/todo-api'
 import IconBack from '@/components/icons/IconBack.vue'
 import { useQuery } from '@tanstack/vue-query'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 const { data } = useQuery({
-  queryKey: ['todo', '2'],
-  queryFn: () => getTodoById('2')
+  queryKey: ['todo', route.params.id],
+  queryFn: () => getTodoById(route.params.id as string)
 })
 </script>
 
