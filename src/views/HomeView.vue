@@ -1,5 +1,12 @@
 <script setup lang="ts">
+import { getTodos } from '@/api/todo-api'
 import IconHeart from '@/components/icons/IconHeart.vue'
+import { useQuery } from '@tanstack/vue-query'
+
+const { isPending, isError, data, error } = useQuery({
+  queryKey: ['todos'],
+  queryFn: getTodos
+})
 </script>
 
 <template>
@@ -32,22 +39,30 @@ import IconHeart from '@/components/icons/IconHeart.vue'
         </div>
 
         <!-- TODO List -->
-        <ul class="space-y-4">
+        <span v-if="isPending">Loading...</span>
+
+        <span v-else-if="isError">Error: {{ error?.message }}</span>
+
+        <ul v-if="data" class="space-y-4">
           <!-- TODO Card Template -->
-          <RouterLink :to="{ name: 'todo-details', params: { id: '123' } }">
-            <li
-              class="bg-white p-4 shadow rounded flex justify-between items-center cursor-pointer hover:bg-gray-100"
-            >
-              <div>
-                <h2 class="text-xl font-semibold">TODO title</h2>
+          <li
+            v-for="todo of data"
+            :key="todo.id"
+            class="bg-white p-4 shadow rounded cursor-pointer hover:bg-gray-100"
+          >
+            <RouterLink :to="{ name: 'todo-details', params: { id: '123' } }">
+              <div class="flex justify-between items-center">
+                <div>
+                  <h2 class="text-xl font-semibold">{{ todo.title }}</h2>
+                </div>
+                <div>
+                  <button class="text-yellow-500">
+                    <IconHeart fill="none" />
+                  </button>
+                </div>
               </div>
-              <div>
-                <button class="text-yellow-500">
-                  <IconHeart fill="none" />
-                </button>
-              </div>
-            </li>
-          </RouterLink>
+            </RouterLink>
+          </li>
         </ul>
       </div>
     </div>

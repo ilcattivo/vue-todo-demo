@@ -1,5 +1,12 @@
 <script setup lang="ts">
+import { getTodoById } from '@/api/todo-api'
 import IconBack from '@/components/icons/IconBack.vue'
+import { useQuery } from '@tanstack/vue-query'
+
+const { data } = useQuery({
+  queryKey: ['todo', '2'],
+  queryFn: () => getTodoById('2')
+})
 </script>
 
 <template>
@@ -15,7 +22,7 @@ import IconBack from '@/components/icons/IconBack.vue'
       <div class="mb-4">
         <label for="title" class="block text-gray-700 mb-2">Title</label>
         <input
-          value="TODO title"
+          :value="data?.title"
           type="text"
           id="title"
           class="w-full p-2 border border-gray-300 rounded"
@@ -24,7 +31,7 @@ import IconBack from '@/components/icons/IconBack.vue'
       <div class="mb-4">
         <label for="description" class="block text-gray-700 mb-2">Description</label>
         <textarea
-          value="TODO Body"
+          :value="data?.description"
           id="description"
           class="w-full p-2 border border-gray-300 rounded"
         ></textarea>
